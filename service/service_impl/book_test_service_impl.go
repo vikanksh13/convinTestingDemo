@@ -71,7 +71,7 @@ func (tc *TestingCenters) getNearestTestingCenters(user *models.User, numberOfCe
 
 	for numberOfCenter > 0 {
 		numberOfCenter--
-		if entry, ok := tc.TestingCenterMap[nearestCenter[numberOfCenter].TestingCenterId]; ok {
+		if entry, ok := TestingCenterMap[nearestCenter[numberOfCenter].TestingCenterId]; ok {
 			availableCenters = append(availableCenters, &entry)
 		} else {
 			return nil, errors.New("test center not found")

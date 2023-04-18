@@ -5,18 +5,20 @@ import (
 )
 
 type TestingCenters struct {
-	TestingCenters   []models.TestingCenter          `json:"testing_center"`
-	TestingCenterMap map[string]models.TestingCenter `json:"testing_center_map"`
+	TestingCenters []models.TestingCenter `json:"testing_center"`
+	// TestingCenterMap map[string]models.TestingCenter `json:"testing_center_map"`
 }
 
-func (testingCenter *TestingCenters) init() {
-	testingCenter.TestingCenterMap = make(map[string]models.TestingCenter)
+var TestingCenterMap map[string]models.TestingCenter
+
+func init() {
+	TestingCenterMap = make(map[string]models.TestingCenter)
 }
 
 func (testingCenter *TestingCenters) IngestTestingCenter(tc []models.TestingCenter) {
 
 	for _, center := range tc {
-		testingCenter.TestingCenterMap[center.TestingCenterId] = center
+		TestingCenterMap[center.TestingCenterId] = center
 	}
 
 	testingCenter.TestingCenters = append(testingCenter.TestingCenters, tc...)
@@ -33,10 +35,10 @@ func (testingCenter *TestingCenters) UpdateNumberOfKits(kits int, tc models.Test
 		}
 	}
 
-	if entry, ok := testingCenter.TestingCenterMap[tc.TestingCenterId]; ok {
+	if entry, ok := TestingCenterMap[tc.TestingCenterId]; ok {
 		entry.NumberOfKits = kits
 
-		testingCenter.TestingCenterMap[tc.TestingCenterId] = entry
+		TestingCenterMap[tc.TestingCenterId] = entry
 	}
 	return userDetails
 }
